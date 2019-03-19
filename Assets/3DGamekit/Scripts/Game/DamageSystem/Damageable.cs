@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using Gamekit3D.Message;
 using UnityEngine.Serialization;
+using ioc.IOCStudents.Core;
 
 namespace Gamekit3D
 {
     public partial class Damageable : MonoBehaviour
     {
+        [SerializeField]
+        protected int m_pointsGiven = 1000;
+
+        [SerializeField]
+        protected bool m_isEnemy = false;
 
         public int maxHitPoints;
         [Tooltip("Time that this gameObject is invulnerable for, after receiving damage.")]
@@ -97,7 +103,13 @@ namespace Gamekit3D
             currentHitPoints -= data.amount;
 
             if (currentHitPoints <= 0)
+            {
+                if (m_isEnemy)
+                {
+                    IOCGameEvent.Trigger("ADD_POINTS", m_pointsGiven.ToString());
+                }
                 schedule += OnDeath.Invoke; //This avoid race condition when objects kill each other.
+            }
             else
                 OnReceiveDamage.Invoke();
 

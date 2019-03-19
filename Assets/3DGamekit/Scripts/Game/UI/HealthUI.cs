@@ -1,10 +1,15 @@
-﻿using System.Collections;
+﻿using ioc.IOCStudents.Core;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Gamekit3D
 {
-    public class HealthUI : MonoBehaviour
+    public class HealthUI : MonoBehaviour, IOCEventListener<IOCGameEvent>
     {
+        [SerializeField]
+        protected Text m_scoreText = null;
+
         public Damageable representedDamageable;
         public GameObject healthIconPrefab;
 
@@ -13,6 +18,16 @@ namespace Gamekit3D
         protected readonly int m_HashActivePara = Animator.StringToHash("Active");
         protected readonly int m_HashInactiveState = Animator.StringToHash("Inactive");
         protected const float k_HeartIconAnchorWidth = 0.041f;
+
+        void OnEnable()
+        {
+            this.IOCEventStartListening<IOCGameEvent>();
+        }
+
+        void OnDisable()
+        {
+            this.IOCEventStopListening<IOCGameEvent>();
+        }
 
         IEnumerator Start()
         {
@@ -38,6 +53,17 @@ namespace Gamekit3D
                 {
                     m_HealthIconAnimators[i].Play(m_HashInactiveState);
                     m_HealthIconAnimators[i].SetBool(m_HashActivePara, false);
+                }
+            }
+        }
+
+        public void OnIOCEvent(IOCGameEvent gameEvent)
+        {
+            if (gameEvent.m_eventName == "ADD_POINTS")
+            {
+                if (m_scoreText != null)
+                {
+                    m_scoreText.text = "" + (int.Parse(m_scoreText.text) + int.Parse(gameEvent.m_eventData));
                 }
             }
         }
