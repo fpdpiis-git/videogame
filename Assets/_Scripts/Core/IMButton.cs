@@ -16,8 +16,17 @@
         public ButtonUpMethodDelegate m_buttonUpMethod;
 
         public IMButton(string playerID, string buttonID, ButtonDownMethodDelegate btnDown, ButtonPressedMethodDelegate btnPressed, ButtonUpMethodDelegate btnUp)
-        {
+        {            
             m_buttonID = playerID + "_" + buttonID;
+            m_buttonDownMethod = btnDown;
+            m_buttonUpMethod = btnUp;
+            m_buttonPressedMethod = btnPressed;
+            State = ButtonStates.Off;
+        }
+
+        public IMButton(string buttonID, ButtonDownMethodDelegate btnDown, ButtonPressedMethodDelegate btnPressed, ButtonUpMethodDelegate btnUp)
+        {
+            m_buttonID = buttonID;
             m_buttonDownMethod = btnDown;
             m_buttonUpMethod = btnUp;
             m_buttonPressedMethod = btnPressed;

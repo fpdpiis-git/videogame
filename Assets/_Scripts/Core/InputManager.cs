@@ -35,8 +35,18 @@ namespace ioc.IOCStudents.Core
 
         protected virtual void Start()
         {
-            InitializeButtons();
-            InitializeAxis();
+            //InitializeButtons();
+            //InitializeAxis();
+            InitializeButtonsCom3DGameKit();
+            InitializeAxisCom3DGameKit();
+        }
+
+        protected virtual void InitializeButtonsCom3DGameKit()
+        {
+            m_buttonList = new List<IMButton>();
+            m_buttonList.Add(JumpButton = new IMButton("Jump", JumpButtonDown, JumpButtonPressed, JumpButtonUp));
+            m_buttonList.Add(ShootButton = new IMButton("Fire1", ShootButtonDown, ShootButtonPressed, ShootButtonUp));
+            m_buttonList.Add(PauseButton = new IMButton("Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp));
         }
 
         protected virtual void InitializeButtons()
@@ -45,6 +55,14 @@ namespace ioc.IOCStudents.Core
             m_buttonList.Add(JumpButton = new IMButton(m_playerID, "Jump", JumpButtonDown, JumpButtonPressed, JumpButtonUp));
             m_buttonList.Add(ShootButton = new IMButton(m_playerID, "Shoot", ShootButtonDown, ShootButtonPressed, ShootButtonUp));
             m_buttonList.Add(PauseButton = new IMButton(m_playerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp));
+        }
+
+        protected virtual void InitializeAxisCom3DGameKit()
+        {
+            m_axisHorizontal = "Horizontal";
+            m_axisVertical = "Vertical";
+            m_axisSecondaryHorizontal = "Mouse X";
+            m_axisSecondaryVertical = "Mouse Y";
         }
 
         protected virtual void InitializeAxis()

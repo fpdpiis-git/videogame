@@ -1,18 +1,9 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections;
-using Gamekit3D;
+using ioc.IOCStudents.Core;
 
-
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : Singleton<PlayerInput>
 {
-    public static PlayerInput Instance
-    {
-        get { return s_Instance; }
-    }
-
-    protected static PlayerInput s_Instance;
-
     [HideInInspector]
     public bool playerControllerInputBlocked;
 
@@ -63,32 +54,26 @@ public class PlayerInput : MonoBehaviour
 
     const float k_AttackInputDuration = 0.03f;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         m_AttackInputWait = new WaitForSeconds(k_AttackInputDuration);
-
-        if (s_Instance == null)
-            s_Instance = this;
-        else if (s_Instance != this)
-            throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
     }
 
 
     void Update()
     {
-        m_Movement.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        m_Camera.Set(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        m_Jump = Input.GetButton("Jump");
-
-        if (Input.GetButtonDown("Fire1"))
+        m_Movement = InputManager.Instance.PrimaryMovement;
+        m_Camera = InputManager.Instance.SecondaryMovement;
+        m_Jump = InputManager.Instance.JumpButton.State == IMButton.ButtonStates.ButtonDown;
+        m_Pause = InputManager.Instance.PauseButton.State == IMButton.ButtonStates.ButtonDown;
+        if (InputManager.Instance.ShootButton.State == IMButton.ButtonStates.ButtonDown)
         {
             if (m_AttackWaitCoroutine != null)
                 StopCoroutine(m_AttackWaitCoroutine);
 
             m_AttackWaitCoroutine = StartCoroutine(AttackWait());
         }
-
-        m_Pause = Input.GetButtonDown ("Pause");
     }
 
     IEnumerator AttackWait()
@@ -115,3 +100,19 @@ public class PlayerInput : MonoBehaviour
         m_ExternalInputBlocked = false;
     }
 }
+
+
+
+//m_Movement.Set(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+//m_Camera.Set(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+//m_Jump = Input.GetButton("Jump");
+//m_Pause = Input.GetButtonDown("Pause");
+
+
+//if (Input.GetButtonDown("Fire1"))
+//{
+//    if (m_AttackWaitCoroutine != null)
+//        StopCoroutine(m_AttackWaitCoroutine);
+
+//    m_AttackWaitCoroutine = StartCoroutine(AttackWait());
+//}
