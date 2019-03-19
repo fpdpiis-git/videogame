@@ -15,24 +15,6 @@ EditorBuildSettings:
     path: Assets/3DGamekit/Scenes/Gameplay/Level2.unity
     guid: bfc86215544d6ab42b838135fdd17f21
   - enabled: 1
-    path: 
-    guid: 0b01f041a9e364aee935065555ecdc35
-  - enabled: 1
-    path: Assets/trh.unity
-    guid: c79cfb6990668294a870c6c8a1458f49
-  - enabled: 1
-    path: Assets/ererre.unity
-    guid: 4d2fd60fe61bbe942ad306a10bf96f69
-  - enabled: 1
-    path: Assets/qqwqwq.unity
-    guid: 7823f44454eef5d459db8bbced5c84a6
-  - enabled: 1
-    path: Assets/fwefwef.unity
-    guid: 51e08e8e83527624fbd513889377d570
-  - enabled: 1
-    path: Assets/ohwow.unity
-    guid: ea15c026e1a90d24a962e6a83f4cb942
-  - enabled: 1
-    path: Assets/wefwef.unity
-    guid: c83a32ebdcb594d47b839f9ad9641f7f
+    path: Assets/_Scenes/Test/SceneTransition2.unity
+    guid: 7acc8abbe52d2a44eb7bb6d2b1968805
   m_configObjects: {}
